@@ -48,7 +48,7 @@ def contact():
 def inspire():
 	return render_template('index.html', content=render_template('pages/inspire.html'))
 
-@app.route('tv')
+@app.route('/tv')
 def tv():
 	pass
 

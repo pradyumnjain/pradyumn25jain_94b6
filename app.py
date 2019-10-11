@@ -90,7 +90,7 @@ def tv():
     a=questions_table.query.get(qno)
     min=a.option_1_range
     max=a.option_2_range
-    
+    # print(answers)
     if request.method == 'POST':
  #known issue- no validation if no rb is selected
         # Render the same screen when no radio button is selected
@@ -144,11 +144,13 @@ def tv():
 def buy():
     return render_template('index.html',content=render_template('pages/buynow.html'))
 
-if __name__=="__main__":
-	app.run(debug=True, use_reloader=True)
+
 
 def all_questions_answered(no_of_rows):
     if(no_of_rows==qno):
         return True
     else:
         return False
+
+if __name__=="__main__":
+	app.run(debug=True, use_reloader=True)

@@ -24,7 +24,7 @@ $(".navbar-nav li").click(function(){
 	$(this).addClass("active");
 });
 function outputUpdate(slid) {
-	document.querySelector('#sliderVal').value = slid;
+	document.querySelector('#sliderVal').value = Math.round(slid, 1);
 }
 </script>
 {% endblock %}

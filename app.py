@@ -25,6 +25,12 @@ db= SQLAlchemy(app)
 
 final_output_array=[]
 
+def all_questions_answered(no_of_rows):
+    if(no_of_rows==cfg.qno):
+        return True
+    else:
+        return False
+
 class questions_table(db.Model):
     question_number = db.Column(db.Integer, primary_key=True)
     question = db.Column(db.String(500), unique=True, nullable=False)
@@ -138,9 +144,3 @@ def buy():
 
 if __name__=="__main__":
 	app.run(debug=True, use_reloader=True)
-
-def all_questions_answered(no_of_rows):
-    if(no_of_rows==cfg.qno):
-        return True
-    else:
-        return False

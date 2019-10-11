@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block head %}
+  
+  <link href="{{ url_for('static', filename='css/style1.css') }}" type="text/css" rel="stylesheet">
+  
+{% endblock %}
+
+{% block body %}
+
+  <div class="container-fluid" style="size: 100%">
+    
+    <h3 class="light-blue-text text-darken-2"><strong>PERSONALISE YOUR ONLINE SHOPPING</strong></h3>
+    <p class="flow-text">
+      Personal Genie is an intelligent, self-evolving system that delivers personalized experience for online shopping.
+      This idea has been originated from hackathon project under the theme "Brand Experience".
+      Our solution can help business which have range of products to improve customer experience.<br>
+      Our model gets better and better every time user visits the site. We provide mantainenance, scalability,
+      and easily customizable solution for business companies.
+    </p>
+    <blockquote class="niceblockquote">
+      <p>Genie's brain is driven by complex architecture of AI algorithms.</p>
+    </blockquote>
+
+  </div>
+{% endblock %}

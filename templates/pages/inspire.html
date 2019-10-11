@@ -8,29 +8,25 @@
 {% block body %}
 
 
-  <div class="container-fluid h-100" style="margin-top: 10px; margin-bottom: 10px">
-    <div class="row w-100 h-100" style="height: 100%">
-      <div class="col-md-4" style="height: 100%;">
-        <div class="card img-fluid" style="width:500px; height: 100%">
+  <div class="container-fluid h-100" style="margin-top: 10px; margin-bottom: 10px;">
+    <div class="row" style="width:100%; height: 100%">
+      <div class="card-group">
+        <div class="card img-fluid text-center" style="height: 100%">
           <img class="card-img-top" src="{{ url_for('static', filename='images/television.jpeg') }}" alt="Card image" style="width:100%; height: 100%">
           <div class="card-img-overlay">
             <h4 class="card-title">TV</h4>
             <a href="{{ url_for('tv')}}" class="btn btn-primary stretched-link">TV</a>
           </div>
         </div>
-      </div>
-      <div class="col-md-4" style="height: 100%;">
-        <div class="card img-fluid" style="width:500px; height: 100%">
+        <div class="card img-fluid text-center" style="height: 100%">
           <img class="card-img-top" src="{{ url_for('static', filename='images/audio.jpg') }}" alt="Card image" style="width:100%; height: 100%">
           <div class="card-img-overlay">
             <h4 class="card-title">Audio</h4>
             <a href="#" class="btn btn-primary stretched-link">Audio</a>
           </div>
         </div>
-      </div>
-      <div class="col-md-4" style="height: 100%;">
-        <div class="card img-fluid" style="width:500px; height: 100%">
-          <img class="card-img-top" src="{{ url_for('static', filename='images/audio.jpg') }}" alt="Card image" style="width:100%; height: 100%">
+        <div class="card img-fluid text-center" style="height: 100%">
+          <img class="card-img-top" src="{{ url_for('static', filename='images/mobiles.jpg') }}" alt="Card image" style="width:100%; height: 100%">
           <div class="card-img-overlay">
             <h4 class="card-title">Phone</h4>
             <a href="#" class="btn btn-primary stretched-link">Phone</a>

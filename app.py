@@ -30,23 +30,23 @@ class questions_table(db.Model):
 
 @app.route('/')
 def index():
-	return render_template('index.html')
+	return render_template('index.html', content=render_template('pages/home.html'))
 
 @app.route('/about')
 def about():
-	return render_template('defaults/layout.html', content=render_template('pages/about.html'))
+	return render_template('index.html', content=render_template('pages/about.html'))
 
 @app.route('/explore')
 def explore():
-	return render_template('defaults/layout.html', content=render_template('pages/explore.html'))
+	return render_template('index.html', content=render_template('pages/explore.html'))
 
 @app.route('/contact')
 def contact():
-	return render_template('defaults/layout.html', content=render_template('pages/contact.html'))
+	return render_template('index.html', content=render_template('pages/contact.html'))
 
-@app.route('/inspireme')
-def inspireme():
-	return render_template('inspireme.html')
+@app.route('/inspire')
+def inspire():
+	return render_template('index.html', content=render_template('pages/inspire.html'))
 
 if __name__=="__main__":
 	app.run(debug=True, use_reloader=True)

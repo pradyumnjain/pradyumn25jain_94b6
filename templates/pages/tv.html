@@ -1,7 +1,3 @@
-{% extends "layout.html" %}
-
-{% block body %}
-
 <div class="container">
       
         <h2 style = "text-align: center;">{{ question }}</h2>
@@ -36,14 +32,3 @@
         
       
         </div>
-        
-   
-{% endblock %}
-
-{% block scripts %}
-<script>
-    function outputUpdate(slid) {
-        document.querySelector('#sliderVal').value = slid;
-    }
-    </script>
-{% endblock %}

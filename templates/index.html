@@ -23,5 +23,8 @@ $(".navbar-nav li").click(function(){
 	$(".navbar-nav li").removeClass("active");
 	$(this).addClass("active");
 });
+function outputUpdate(slid) {
+	document.querySelector('#sliderVal').value = slid;
+}
 </script>
 {% endblock %}

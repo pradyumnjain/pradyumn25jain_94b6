@@ -8,38 +8,18 @@
 	<div class="container center" >
 		<div class="row"></div>
 		<div class="row d-flex justify-content-center" >
-			
-				<div class="col-sm-3">
 
-				</div>
-				<div class="col-sm-3 center-align">
-					<a href="{{url_for('inspireme')}}">
-						<div class="card ">
-							<div class="card-body">
-							<img src="{{ url_for('static', filename='images/test.jpg') }}" class="card-img-top hoverable" alt="">
-								<h5 class="card-title">Inspire me</h5>
-								<p class="card-text"> About inspire me</p>
-							</div>
-						</div>
-					</a>
-				</div>
-				<div class="col-sm-2"></div>
-				<div class="col-sm-3 center-align">
-					<a href="{{url_for('inspireme')}}">
-						<div class="card">
-							<div class="card-body">
-								<img src="{{ url_for('static', filename='images/test.jpg') }}" class="card-img-top hoverable" alt="">
-								<h5 class="card-title">Buy now</h5>
-								<p class="card-text"> About Buy now</p>
-							</div>
-						</div>
-					</a>
-				</div>
-				<div class="col-sm-1">
 
-				</div>
-			
+			{{ content | safe }}
+
+
+
 		</div>
 	</div>
 
+{% endblock %}
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+<script src="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.min.js"></script>
 {% endblock %}

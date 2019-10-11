@@ -21,3 +21,49 @@ body{
 .card:hover {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
+
+.navbar-nav .nav-item {
+	color: #fff;
+}
+
+.navbar-nav .nav-item.nav-item-double-line.active>.nav-link, .navbar-nav .nav-item.nav-item-double-line>.nav-link:active, .navbar-nav .nav-item.nav-item-double-line>.nav-link:active:focus, .navbar-nav .nav-item.nav-item-double-line>.nav-link:focus, .navbar-nav .nav-item.nav-item-double-line>.nav-link:hover, .navbar-nav .nav-item.nav-item-line.active>.nav-link, .navbar-nav .nav-item.nav-item-line>.nav-link:active, .navbar-nav .nav-item.nav-item-line>.nav-link:active:focus, .navbar-nav .nav-item.nav-item-line>.nav-link:focus, .navbar-nav .nav-item.nav-item-line>.nav-link:hover {
+    color: #fff;
+}
+.navbar-nav .nav-item.nav-item-line.active>.nav-link::after, .navbar-nav .nav-item.nav-item-line>.nav-link:active::after, .navbar-nav .nav-item.nav-item-line>.nav-link:active:focus::after, .navbar-nav .nav-item.nav-item-line>.nav-link:focus::after, .navbar-nav .nav-item.nav-item-line>.nav-link:hover::after {
+    width: 100%;
+    left: 0;
+}
+.navbar-nav .nav-item.nav-item-line>.nav-link::after {
+    content: '';
+    background: #fff;
+    width: 0;
+    height: 2px;
+    left: 50%;
+    bottom: 0;
+    position: absolute;
+    transition: .3s;
+}
+
+.flexbox {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  overflow: hidden;
+}
+
+.flexbox .col {
+  flex: 1;
+}
+.flexbox .col:nth-child(1) {
+  background: #ccc;
+  order: 1;
+}
+.flexbox .col:nth-child(2) {
+  background: #eee;
+  order: 0;
+}
+.flexbox .col:nth-child(3) {
+  background: #eee;
+  order: 2;
+}
+

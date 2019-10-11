@@ -28,7 +28,7 @@ class questions_table(db.Model):
 
 
 
-@app.route('/index')
+@app.route('/')
 def index():
 	return render_template('index.html')
 

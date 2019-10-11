@@ -1,35 +1,38 @@
 {% extends "layout.html" %}
 
 {% block head %}
-<head>
-	
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/style1.css') }}" >
-
-</head>
 {% endblock %}
 {% block body %}
-
-
-<body>
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-2">
-				
+
+			</div>
+			<div class="col-sm-4 center-align">
+				<a href="{{url_for('inspireme')}}">
+					<div class="card-body">
+					<img src="" class="card-img-top hoverable" alt="">
+						<h5 class="card-title">Inspire me</h5>
+						<p class="card-text"> About inspire me</p>
+					</div>
+				</a>
 			</div>
 			<div class="col-sm-4">
-				<p>	</p>
-			</div>
-			<div class="col-sm-4">
-				
+				<a href="{{url_for('inspireme')}}">
+					<div class="card-body">
+						<img src="" class="card-img-top hoverable" alt="">
+						<h5 class="card-title">Buy now</h5>
+						<p class="card-text"> About Buy now</p>
+					</div>
+				</a>
 			</div>
 			<div class="col-sm-2">
-				
+
 			</div>
 
-			
+
 		</div>
-		
+
 	</div>
-</body>
 
 {% endblock %}

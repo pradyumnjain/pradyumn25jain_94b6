@@ -13,9 +13,17 @@ app = Flask(__name__)
 def index():
 	return render_template('index.html')
 
+@app.route('/about')
+def about():
+	return render_template('defaults/layout.html', content=render_template('pages/about.html'))
 
+@app.route('/explore')
+def explore():
+	return render_template('defaults/layout.html', content=render_template('pages/explore.html'))
+
+@app.route('/contact')
+def contact():
+	return render_template('defaults/layout.html', content=render_template('pages/contact.html'))
 
 if __name__=="__main__":
-	app.run(debug=True)
-
-#trial pull
+	app.run(debug=True, use_reloader=True)

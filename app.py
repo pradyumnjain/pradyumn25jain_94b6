@@ -53,7 +53,7 @@ def home():
 
 @app.route('/about')
 def about():
-	return render_template('index.html', content=render_template('pages/about.html'))
+	return render_template('pages/about.html')
 
 @app.route('/explore')
 def explore():

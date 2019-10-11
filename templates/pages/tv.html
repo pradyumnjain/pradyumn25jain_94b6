@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<div class="container">
+      
+        <h2 style = "text-align: center;">{{ question }}</h2>
+		
+
+        
+        <form action = "{{url_for('tv')}}" method = "POST">
+           <fieldset>
+        
+              {{ form.hidden_tag() }}
+              
+              <div style = font-size:20px; font-weight:bold; margin-left:150px;>
+               {% if flag=='s' %}
+               <p>
+                  {{ form.slider.label }}:
+                  {{ form.slider(min=min_, max=max_ , oninput="outputUpdate(value)") }}
+                  <output for="age" id="sliderVal">{{ form.slider.data }}</output>
+               </p>
+               {% endif %}
+               {% if flag=='m' %}
+               <p>
+                  {{ form.Options.label }} {{ form.Options }}
+               </p>
+               {% endif %}
+                 
+           
+                 {{ form.submit }}
+              </div>
+              
+           </fieldset>
+        </form>
+        
+      
+        </div>
+        
+   
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function outputUpdate(slid) {
+        document.querySelector('#sliderVal').value = slid;
+    }
+    </script>
+{% endblock %}

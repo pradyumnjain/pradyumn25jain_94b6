@@ -24,7 +24,6 @@ body{
 	color: #857c8d;
 	font-size: 24px;
 }
-
 .navbar-nav .nav-item {
 	color: #fff;
 }
@@ -73,3 +72,4 @@ body{
 .special-card {
 	background-color: rgba(245, 245, 245, 0.4) !important;
 }
+

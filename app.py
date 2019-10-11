@@ -68,7 +68,7 @@ def contact():
 
 @app.route('/inspire')
 def inspire():
-	return render_template('index.html', content=render_template('pages/inspire.html'))
+	return render_template('pages/inspire.html')
 
 @app.route('/output')
 def output():

@@ -48,5 +48,9 @@ def contact():
 def inspire():
 	return render_template('index.html', content=render_template('pages/inspire.html'))
 
+@app.route('tv')
+def tv():
+	pass
+
 if __name__=="__main__":
 	app.run(debug=True, use_reloader=True)

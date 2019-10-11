@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect
+from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_wtf import FlaskForm
 from flask_sqlalchemy import SQLAlchemy
 import csv
@@ -29,7 +29,7 @@ class questions_table(db.Model):
 
 
 @app.route('/')
-def index():
+def home():
 	return render_template('index.html', content=render_template('pages/home.html'))
 
 @app.route('/about')
@@ -48,7 +48,7 @@ def contact():
 def inspire():
 	return render_template('index.html', content=render_template('pages/inspire.html'))
 
-@app.route('tv')
+@app.route('/tv')
 def tv():
 	pass
 

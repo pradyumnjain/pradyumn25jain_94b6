@@ -4,13 +4,12 @@
     <button class="navbar-toggler toggler-spring"><span class="navbar-toggler-icon"></span></button>
     <div class="collapse navbar-collapse justify-content-md-between">
         <ul class="navbar-nav navbar-mobile">
-            <li class="nav-item nav-item-line active"><a class="nav-link" href="#">Home</a></li>
-            <li class="nav-item nav-item-line"><a class="nav-link" href="#">Explore</a></li>
-            <li class="nav-item nav-item-line"><a class="nav-link" href="#">News</a></li>
+            <li class="nav-item nav-item-line active"><a class="nav-link" href="{{ url_for('home') }}" type="text/css" rel="stylesheet">}}">Home</a></li>
+            <li class="nav-item nav-item-line"><a class="nav-link" href="{{ url_for('explore') }}">Explore</a></li>
         </ul>
         <ul class="navbar-nav navbar-mobile">
-            <li class="nav-item nav-item-line"><a class="nav-link" href="#">About</a></li>
-            <li class="nav-item nav-item-line"><a class="nav-link" href="#">Contact</a></li>
+            <li class="nav-item nav-item-line"><a class="nav-link" href="{{ url_for('about') }}">About</a></li>
+            <li class="nav-item nav-item-line"><a class="nav-link" href="{{ url_for('contact') }}">Contact</a></li>
         </ul>
   </div>
 </div>

@@ -9,9 +9,13 @@ import pandas as pd
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/index')
 def index():
 	return render_template('index.html')
+
+@app.route('/inspireme')
+def inspireme():
+	return render_template('inspireme.html')
 
 
 

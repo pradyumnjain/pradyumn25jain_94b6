@@ -63,7 +63,7 @@ def about():
 
 @app.route('/explore')
 def explore():
-	return render_template('index.html', content=render_template('pages/explore.html'))
+	return redirect(url_for('buy'))
 
 @app.route('/contact')
 def contact():

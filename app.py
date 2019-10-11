@@ -134,7 +134,7 @@ def tv():
 
 @app.route('/buy')
 def buy():
-    return render_template('index.html',content=render_template('pages/buynow.html'))
+    return render_template('pages/buynow.html')
 
 if __name__=="__main__":
 	app.run(debug=True, use_reloader=True)

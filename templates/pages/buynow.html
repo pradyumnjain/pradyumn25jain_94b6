@@ -1,74 +1,105 @@
-<div class="py-5">
-  <div class="container">
-    <div class="row hidden-md-up">
+
+{% extends "layout.html" %}
+
+{% block head %}
+  <link href="{{ url_for('static', filename='css/style1.css') }}" type="text/css" rel="stylesheet">
+  
+{% endblock %}
+{% block body %}
+  <div class="container" style="max-height: auto ">
+    <div class="flexbox">
+    <div class="row hidden-md-up" style="max-height: auto; margin-top:30px ">
       <div class="col-md-4">
+
         <div class="card">
+          <a href="https://www.amazon.in/Sony-Wi-Xb400-Wireless-Headphones-WIXB400/dp/B07WNXS613?th=1" class="card-link">
           <div class="card-block">
-            <h4 class="card-title">Card title</h4>
-            <h6 class="card-subtitle text-muted">Support card subtitle</h6>
-            <p class="card-text p-y-1">Some quick example text to build on the card title .</p>
-            <a href="#" class="card-link">link</a>
-            <a href="#" class="card-link">Second link</a>
+            <img src="{{ url_for('static', filename='images/xb400.jpg') }}" class="card-img-top hoverable" alt="" >
+            <h4 class="card-title">Sony WI-XB400</h4>
+            <h6 class="card-subtitle text-muted">In-ear bluetooth</h6>
+            <p class="card-text p-y-1"></p>
+            
+            <!-- <a href="#" class="card-link">Second link</a> -->
           </div>
+        </a>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card">
+          <a href="https://www.amazon.in/255-Bluetooth-Wireless-Earphone-Immersive/dp/B07C2VJXP4/ref=lp_15783296031_1_1?s=electronics&ie=UTF8&qid=1570815868&sr=1-1" class="card-link">
           <div class="card-block">
-            <h4 class="card-title">Card title</h4>
-            <h6 class="card-subtitle text-muted">Support card subtitle</h6>
-            <p class="card-text p-y-1">Some quick example text to build on the card title .</p>
-            <a href="#" class="card-link">link</a>
-            <a href="#" class="card-link">Second link</a>
+            <img src="{{ url_for('static', filename='images/boatSports.jpg') }}" class="card-img-top hoverable" alt="" >
+            <h4 class="card-title">boAt Rockerz 255 Sports</h4>
+            <h6 class="card-subtitle text-muted">In-ear bluetooth</h6>
+            <p class="card-text p-y-1"></p>
+            
+            <!-- <a href="#" class="card-link">Second link</a> -->
           </div>
+        </a>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card">
+          <a href="https://www.amazon.in/Sony-WI-C400-Wireless-Stereo-Headphone/dp/B074WFT3KL/ref=lp_15783296031_1_22?s=electronics&ie=UTF8&qid=1570815868&sr=1-22" class="card-link">
           <div class="card-block">
-            <h4 class="card-title">Card title</h4>
-            <h6 class="card-subtitle text-muted">Support card subtitle</h6>
-            <p class="card-text p-y-1">Some quick example text to build on the card title .</p>
-            <a href="#" class="card-link">link</a>
-            <a href="#" class="card-link">Second link</a>
+            <img src="{{ url_for('static', filename='images/c400.jpg') }}" class="card-img-top hoverable" alt="" >
+            <h4 class="card-title">Sony WI-C400 </h4>
+            <h6 class="card-subtitle text-muted">In-ear bluetooth neckband</h6>
+            <p class="card-text p-y-1"></p>
+            
+            <!-- <a href="#" class="card-link">Second link</a> -->
           </div>
+        </a>
         </div>
       </div>
     </div><br>
+  </div>
+  <div class="flexbox">
     <div class="row">
       <div class="col-md-4">
         <div class="card">
+           <a href="https://www.amazon.in/JBL-E25BT-Signature-Wireless-Headphones/dp/B01MDMSQQ7/ref=sr_1_12?qid=1570816723&s=electronics&sr=1-12" class="card-link">
           <div class="card-block">
-            <h4 class="card-title">Card title</h4>
-            <h6 class="card-subtitle text-muted">Support card subtitle</h6>
-            <p class="card-text p-y-1">Some quick example text to build on the card title .</p>
-            <a href="#" class="card-link">link</a>
-            <a href="#" class="card-link">Second link</a>
+             <img src="{{ url_for('static', filename='images/e25bt.jpg') }}" class="card-img-top hoverable" alt="" >
+            <h4 class="card-title">JBL E25BT Signature</h4>
+            <h6 class="card-subtitle text-muted">In-ear bluetooth</h6>
+            <p class="card-text p-y-1"></p>
+           
+            <!-- <a href="#" class="card-link">Second link</a> -->
           </div>
+        </a>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card">
+          <a href="https://www.amazon.in/JBL-T160BT-Wireless-Headphones-Black/dp/B07DDJYMTG/ref=sr_1_15?qid=1570817210&s=electronics&sr=1-15" class="card-link">
           <div class="card-block">
-            <h4 class="card-title">Card title</h4>
-            <h6 class="card-subtitle text-muted">Support card subtitle</h6>
-            <p class="card-text p-y-1">Some quick example text to build on the card title .</p>
-            <a href="#" class="card-link">link</a>
-            <a href="#" class="card-link">Second link</a>
+            <img src="{{ url_for('static', filename='images/t160bt.jpg') }}" class="card-img-top hoverable" alt="" >
+            <h4 class="card-title">JBL T160BT </h4>
+            <h6 class="card-subtitle text-muted">In-ear bluetooth</h6>
+            <p class="card-text p-y-1"></p>
+            
+            <!-- <a href="#" class="card-link">Second link</a> -->
           </div>
+        </a>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card">
+          <a href="https://www.amazon.in/Rockerz-510-Wireless-Bluetooth-Headphones/dp/B06Y5LK5QJ/ref=sr_1_10?qid=1570817210&s=electronics&sr=1-10" class="card-link">
           <div class="card-block">
-            <h4 class="card-title">Card title</h4>
-            <h6 class="card-subtitle text-muted">Support card subtitle</h6>
-            <p class="card-text p-y-1">Some quick example text to build on the card title .</p>
-            <a href="#" class="card-link">link</a>
-            <a href="#" class="card-link">Second link</a>
+            <img src="{{ url_for('static', filename='images/boatRockerz.jpg') }}" class="card-img-top hoverable" alt="" >
+            <h4 class="card-title">boAt Rockerz 510</h4>
+            <h6 class="card-subtitle text-muted">Over-ear bluetooth Headphones</h6>
+            <p class="card-text p-y-1"></p>
+            
+            <!-- <a href="#" class="card-link">Second link</a> -->
           </div>
         </div>
+      </a>
       </div>
     </div>
   </div>
 </div>
+
+{% endblock %}

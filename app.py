@@ -15,18 +15,15 @@ from sklearn.ensemble import RandomForestRegressor
 #Importing libraries for the algorithm
 import numpy as np
 import pandas as pd
+import config as cfg
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.secret_key = 'development key'
 db= SQLAlchemy(app)
 # use DB-Browser to modify the database
-answers =[]
-traits=[]
-no_of_trait_questions=5
+
 final_output_array=[]
-qno=1
-no_of_rows=0
 
 class questions_table(db.Model):
     question_number = db.Column(db.Integer, primary_key=True)
@@ -42,9 +39,9 @@ class questions_table(db.Model):
     option_3_value=db.Column(db.Integer,nullable=False)
 
 class QuestionForm(FlaskForm):
-    a=questions_table.query.get(qno)
+    a=questions_table.query.get(cfg.qno)
     slider = DecimalRangeField('Slide the slider!', default=0)
-    Options = RadioField('Options', choices = [(float(a.option_1_value) ,a.option_1_range),(float(a.option_2_value) ,a.option_2_range),(float(a.option_3_value) , a.option_3)]) 
+    Options = RadioField('Options', choices = [(float(a.option_1_value) ,a.option_1_range),(float(a.option_2_value) ,a.option_2_range),(float(a.option_3_value) , a.option_3)])
     # Options = RadioField('Options', choices = [('1' ,all_options[qno][0]),('2' ,all_options[qno][1]),('3' ,all_options[qno][2])] )
     submit = SubmitField("Send")
 
@@ -72,25 +69,19 @@ def inspire():
 
 @app.route('/output')
 def output():
-    global traits
-    global answers
-    global no_of_trait_questions
-    traits=answers[0:no_of_trait_questions]
-    del answers[0:no_of_trait_questions]
-    final_output_array= recommendation_algorithm(traits, answers)
+    cfg.traits=cfg.answers[0:cfg.no_of_trait_questions]
+    del cfg.answers[0:cfg.no_of_trait_questions]
+    final_output_array= recommendation_algorithm(cfg.traits, cfg.answers)
     return render_template('output.html', p1= final_output_array[0], p2=final_output_array[1], p3=final_output_array[2])
 
 @app.route('/tv',  methods=['GET','POST'])
 def tv():
     form = QuestionForm()
-    global no_of_rows
-    global qno
-    no_of_rows= questions_table.query.count()
-    question= questions_table.query.get(qno).question
-    a=questions_table.query.get(qno)
+    cfg.no_of_rows= questions_table.query.count()
+    question= questions_table.query.get(cfg.qno).question
+    a=questions_table.query.get(cfg.qno)
     min=a.option_1_range
     max=a.option_2_range
-    # print(answers)
     if request.method == 'POST':
  #known issue- no validation if no rb is selected
         # Render the same screen when no radio button is selected
@@ -98,40 +89,40 @@ def tv():
         if(False):
             print("can't validate")
             return render_template('index.html', content=render_template('pages/tv.html', form=form, question=question, flag=a.answer_type, min_=min, max_=max))
-        
+
 
         #Render output page if all questions are answered
-        elif(all_questions_answered(no_of_rows)):
-            return redirect('/output')
+        elif(all_questions_answered(cfg.no_of_rows)):
+        	return redirect('/output')
 
 
         else:
             #re-initializing the form everytime to update options
             if(a.answer_type=='m'):
-                answers.append(float(form.Options.data))
+                cfg.answers.append(float(form.Options.data))
             elif(a.answer_type=='s'):
-                answers.append(float(form.slider.data))
+                cfg.answers.append(float(form.slider.data))
             else:
                 print("error")
-            if(all_questions_answered(no_of_rows)):
+            if(all_questions_answered(cfg.no_of_rows)):
                 return redirect('/output')
 
-            qno=qno+1
+            cfg.qno=cfg.qno+1
             #question refresh, code to be optimized
-            question= questions_table.query.get(qno).question
+            question= questions_table.query.get(cfg.qno).question
 
 
             #render the mcq choices here
-            a=questions_table.query.get(qno)
+            a=questions_table.query.get(cfg.qno)
             if(a.answer_type=='m'):
-                
+
                 form.Options.choices = [(float(a.option_1_value) ,a.option_1_range),(float(a.option_2_value) ,a.option_2_range),(float(a.option_3_value) , a.option_3)]
             elif(a.answer_type=='s'):
                 min=a.option_1_range
                 max=a.option_2_range
 
-            
-            
+
+
             # form.Options.choices=[('1',all_options[qno][0]),('2' ,all_options[qno][1]),('3',all_options[qno][2])]
             return render_template('index.html', content=render_template('pages/tv.html', form=form, question=question, flag=a.answer_type, min_=min, max_=max))
 
@@ -147,7 +138,7 @@ def buy():
 
 
 def all_questions_answered(no_of_rows):
-    if(no_of_rows==qno):
+    if(no_of_rows==cfg.qno):
         return True
     else:
         return False

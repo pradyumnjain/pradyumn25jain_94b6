@@ -22,6 +22,7 @@ body{
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
+
 .navbar-nav .nav-item {
 	color: #fff;
 }
@@ -42,4 +43,26 @@ body{
     bottom: 0;
     position: absolute;
     transition: .3s;
+
+.flexbox {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  overflow: hidden;
+}
+
+.flexbox .col {
+  flex: 1;
+}
+.flexbox .col:nth-child(1) {
+  background: #ccc;
+  order: 1;
+}
+.flexbox .col:nth-child(2) {
+  background: #eee;
+  order: 0;
+}
+.flexbox .col:nth-child(3) {
+  background: #eee;
+  order: 2;
 }

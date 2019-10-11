@@ -5,10 +5,8 @@ body{
 
 }
 .navbar{
-	background: linear-gradient(135deg, #e570e7 0%,#c85ec7 47%,#a849a3 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e570e7', endColorstr='#a849a3',GradientType=1 );
-
-
+	background: linear-gradient(135deg, #AC267F 0%,#832161 47%,#5a1743 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ac267f', endColorstr='#5a1743',GradientType=1 );
 }
 
 .card {
@@ -22,6 +20,10 @@ body{
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
+.navbar a {
+	color: #857c8d;
+	font-size: 24px;
+}
 
 .navbar-nav .nav-item {
 	color: #fff;
@@ -66,4 +68,8 @@ body{
 .flexbox .col:nth-child(3) {
   background: #eee;
   order: 2;
+}
+
+.special-card {
+	background-color: rgba(245, 245, 245, 0.4) !important;
 }

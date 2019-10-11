@@ -80,7 +80,7 @@ def output():
     final_output_array= recommendation_algorithm(traits, answers)
     return render_template('output.html', p1= final_output_array[0], p2=final_output_array[1], p3=final_output_array[2])
 
-@app.route('/tv')
+@app.route('/tv',  methods=['GET','POST'])
 def tv():
     form = QuestionForm()
     global no_of_rows
@@ -97,7 +97,7 @@ def tv():
         # if form.validate() == False:
         if(False):
             print("can't validate")
-            return render_template('index.html', content=render_template('pages/tv.html'), form = form, question=question, flag=a.answer_type)
+            return render_template('index.html', content=render_template('pages/tv.html', form=form, question=question, flag=a.answer_type, min_=min, max_=max))
         
 
         #Render output page if all questions are answered

@@ -1,14 +1,14 @@
 body{
 
-	background: linear-gradient(135deg,  #ffffff 0%,#e5e5e5 100%); 
+	background: linear-gradient(135deg,  #ffffff 0%,#e5e5e5 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 
-	}
+}
 .navbar{
 	background: linear-gradient(135deg, #e570e7 0%,#c85ec7 47%,#a849a3 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e570e7', endColorstr='#a849a3',GradientType=1 );
 
-	
+
 }
 
 .card {
@@ -20,17 +20,4 @@ body{
 /* On mouse-over, add a deeper shadow */
 .card:hover {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-}
-
-/* Add some padding inside the card container */
-.container {
-  padding: 2px 16px;
-}
-
-.center {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
 }

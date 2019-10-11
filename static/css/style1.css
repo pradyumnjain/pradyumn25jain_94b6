@@ -43,6 +43,7 @@ body{
     bottom: 0;
     position: absolute;
     transition: .3s;
+}
 
 .flexbox {
   display: -webkit-flex;

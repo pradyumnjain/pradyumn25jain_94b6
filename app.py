@@ -16,6 +16,7 @@ from sklearn.ensemble import RandomForestRegressor
 import numpy as np
 import pandas as pd
 import config as cfg
+import multiple_page_web_crawler as crawler
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
@@ -151,6 +152,8 @@ TODO: BETTER VARIABLE NAMES, OPTIMIZATION, INCLUDE ALL DATASETS, REFACTOR CHUNKS
 NUMBER_OF_PERSONALITY_QUESTIONS = 5
 #Let me test for tv dataset first
 df = pd.read_csv("data/final_phone.csv", skipinitialspace=True)
+
+df_real_time = crawler.run()
 
 #Data preprocessing
 df.drop("Unnamed: 0", axis=1, inplace=True)

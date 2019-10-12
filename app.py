@@ -83,8 +83,9 @@ def inspire():
 def output():
     cfg.traits=cfg.answers[0:cfg.no_of_trait_questions]
     del cfg.answers[0:cfg.no_of_trait_questions]
+    print(cfg.traits, cfg.answers)
     final_output_array= recommendation_algorithm(df_tv, cfg.traits, cfg.answers)
-    return render_template('output.html', p1= final_output_array[0], p2=final_output_array[1], p3=final_output_array[2])
+    return render_template('pages/output.html', p1= final_output_array[0], p2=final_output_array[1], p3=final_output_array[2])
 
 @app.route('/tv',  methods=['GET','POST'])
 def tv():
@@ -101,12 +102,6 @@ def tv():
         if(False):
             print("can't validate")
             return render_template('pages/tv.html', form=form, question=question, flag=a.answer_type, min_=min, max_=max)
-
-
-        #Render output page if all questions are answered
-        elif(all_questions_answered(cfg.no_of_rows)):
-        	return redirect('/output')
-
 
         else:
             #re-initializing the form everytime to update options
@@ -157,7 +152,7 @@ def get_indices(arr, x):
             indices.append(i)
     return indices
 
-NUMBER_OF_PERSONALITY_QUESTIONS = 5
+NUMBER_OF_PERSONALITY_QUESTIONS = 3
 #Let me test for tv dataset first
 df_phone = pd.read_csv("data/final_phone.csv", skipinitialspace=True)
 df_tv = crawler.run()
@@ -177,6 +172,11 @@ df_phone.dropna(inplace=True)
 df_tv.drop("usb_port", axis=1, inplace=True)
 df_tv.drop("hdmi_port", axis=1, inplace=True)
 df_tv.drop("type", axis=1, inplace=True)
+df_tv.drop("refresh_rate ", axis=1, inplace=True)
+df_tv.drop("Rating", axis=1, inplace=True)
+df_tv.drop("res1", axis=1, inplace=True)
+df_tv.drop("review", axis=1, inplace=True)
+
 df_tv.dropna(inplace=True)
 
 PRIMARY_COL_NAME_PHONE = "model"
@@ -207,19 +207,19 @@ y_kmeans_tv = kmeans_model_tv.predict(X_tv)
 centroid_positions_phone = kmeans_model_phone.cluster_centers_
 new_X_centroids_phone = np.zeros((NUMBER_OF_PERSONALITY_QUESTIONS,NUMBER_OF_PERSONALITY_QUESTIONS))
 #Setting values randomly for now but has to be evaluated by seeing the products
-new_X_centroids_phone[0,0] = 1
-new_X_centroids_phone[1,1] = 1
-new_X_centroids_phone[2,2] = 1
-new_X_centroids_phone[3,3] = 1
-new_X_centroids_phone[4,4] = 1
+# new_X_centroids_phone[0,0] = 1
+# new_X_centroids_phone[1,1] = 1
+# new_X_centroids_phone[2,2] = 1
+# new_X_centroids_phone[3,3] = 1
+# new_X_centroids_phone[4,4] = 1
 
 centroid_positions_tv = kmeans_model_tv.cluster_centers_
-new_X_centroids_tv = np.zeros((NUMBER_OF_PERSONALITY_QUESTIONS,NUMBER_OF_PERSONALITY_QUESTIONS))
-new_X_centroids_tv[0,0] = 1
-new_X_centroids_tv[1,1] = 1
-new_X_centroids_tv[2,2] = 1
-new_X_centroids_tv[3,3] = 1
-new_X_centroids_tv[4,4] = 1
+# new_X_centroids_tv = np.zeros((NUMBER_OF_PERSONALITY_QUESTIONS,NUMBER_OF_PERSONALITY_QUESTIONS))
+# new_X_centroids_tv[0,0] = 1
+# new_X_centroids_tv[1,1] = 1
+# new_X_centroids_tv[2,2] = 1
+# new_X_centroids_tv[3,3] = 1
+# new_X_centroids_tv[4,4] = 1
 
 #Calculating P value for centroids
 P_centroids_phone = np.zeros((NUMBER_OF_PERSONALITY_QUESTIONS,NUMBER_OF_PERSONALITY_QUESTIONS))
@@ -269,29 +269,30 @@ rfr_model_tv = RandomForestRegressor(max_depth=30)
 rfr_model_tv.fit(P_X_tv, X_tv)
 
 def recommendation_algorithm(dataframe, personality_answers_array, tech_answers_array):
-    # Make sure to return a list/array object or anything else and changes on the @output route accordingly
-    predictedX_features = rfr_model.predict([personality_answers_array])
+	tech_answers_array[2]*=100
+	# Make sure to return a list/array object or anything else and changes on the @output route accordingly
+	predictedX_features = rfr_model_tv.predict([personality_answers_array])
 
-    #This is the rule for deciding on how to transition to feature question set
-    #For now I am choosing closest 20 points
-    closest = np.argsort(np.sum((X_phone.values - predictedX_features)**2, axis=1))[:40]
+	#This is the rule for deciding on how to transition to feature question set
+	#For now I am choosing closest 20 points
+	closest = np.argsort(np.sum((X_tv.values - predictedX_features)**2, axis=1))[:40]
 
-    #After getting the predicted feature vector we can rank the things
-    predicted_products = []
-    closest_for_fx = np.argsort(np.sum((X_phone.values - tech_answers_array)**2, axis=1))[:3]
+	#After getting the predicted feature vector we can rank the things
+	predicted_products = []
+	closest_for_fx = np.argsort(np.sum((X_tv.values - tech_answers_array)**2, axis=1))[:3]
 
-    #The datatype is the series, FINAL OUTPUT
-    recommended_products = dataframe.iloc[closest_for_fx][PRIMARY_COL_NAME_PHONE]
+	#The datatype is the series, FINAL OUTPUT
+	recommended_products = dataframe.iloc[closest_for_fx][PRIMARY_COL_NAME_TV]
 
-    return recommended_products.to_list()
+	return recommended_products.to_list()
 
 def clear_all_selections():
-    
+
     cfg.qno=1
-    
+
     del cfg.answers[:]
     cfg.trait_collection_finished=False
-    
+
     del cfg.traits[:]
 
 

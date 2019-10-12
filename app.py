@@ -83,7 +83,7 @@ def inspire():
 def output():
     cfg.traits=cfg.answers[0:cfg.no_of_trait_questions]
     del cfg.answers[0:cfg.no_of_trait_questions]
-    final_output_array= recommendation_algorithm(df, cfg.traits, cfg.answers)
+    final_output_array= recommendation_algorithm(df_tv, cfg.traits, cfg.answers)
     return render_template('output.html', p1= final_output_array[0], p2=final_output_array[1], p3=final_output_array[2])
 
 @app.route('/tv',  methods=['GET','POST'])
@@ -92,8 +92,8 @@ def tv():
     cfg.no_of_rows= questions_table.query.count()
     question= questions_table.query.get(cfg.qno).question
     a=questions_table.query.get(cfg.qno)
-    min=a.option_1_range
-    max=a.option_2_range
+    min=a.option_1_value
+    max=a.option_2_value
     if request.method == 'POST':
  #known issue- no validation if no rb is selected
         # Render the same screen when no radio button is selected
@@ -130,11 +130,8 @@ def tv():
 
                 form.Options.choices = [(float(a.option_1_value) ,a.option_1_range),(float(a.option_2_value) ,a.option_2_range),(float(a.option_3_value) , a.option_3)]
             elif(a.answer_type=='s'):
-                min=a.option_1_range
-                max=a.option_2_range
-
-
-
+                min=a.option_1_value
+                max=a.option_2_value
             # form.Options.choices=[('1',all_options[qno][0]),('2' ,all_options[qno][1]),('3',all_options[qno][2])]
             return render_template('index.html', content=render_template('pages/tv.html', form=form, question=question, flag=a.answer_type, min_=min, max_=max))
 

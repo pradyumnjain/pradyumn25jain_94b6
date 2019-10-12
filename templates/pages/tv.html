@@ -1,35 +1,5 @@
 
-<<<<<<< HEAD
-        
-        <form action = "{{url_for('tv')}}" method = "POST">
-           <fieldset>
-        
-              {{ form.hidden_tag() }}
-              
-              <div style = font-size:20px; font-weight:bold; margin-left:150px;>
-               {% if flag=='s' %}
-               <p>
-                  {{ form.slider.label }}
-                  {{ form.slider(min=min_, max=max_ , oninput="outputUpdate(value)") }}
-                  <output for="age" id="sliderVal">{{ form.slider.data }}</output>
-               </p>
-               {% endif %}
-               {% if flag=='m' %}
-               <p>
-                  {{ form.Options.label }} {{ form.Options }}
-               </p>
-               {% endif %}
-                 
-           
-                 {{ form.submit }}
-              </div>
-              
-           </fieldset>
-        </form>
-        
-      
-=======
-  <div class="col" style="background:red">
+  <div class="col" style="background:white">
     <h2 style = "text-align: center;">{{ question }}</h2>
   </div>
 
@@ -54,7 +24,6 @@
 
 
            {{ form.submit }}
->>>>>>> cb2a7188f85b7eec6e355612794e7b9b1b888c21
         </div>
 
      </fieldset>

@@ -38,9 +38,9 @@ class questions_table(db.Model):
     #answer type= 'm' for mcq questions, 's' for slider input
     answer_type = db.Column(db.String(1), nullable=False)
     #options 1 and 2 can also act as the arguments for slider's min and max values
-    option_1_range= db.Column(db.String(50),nullable=False)
-    option_2_range= db.Column(db.String(50),nullable=False)
-    option_3= db.Column(db.String(50))
+    option_1_range= db.Column(db.String(300),nullable=False)
+    option_2_range= db.Column(db.String(300),nullable=False)
+    option_3= db.Column(db.String(300))
     option_1_value=db.Column(db.Integer,nullable=False)
     option_2_value=db.Column(db.Integer,nullable=False)
     option_3_value=db.Column(db.Integer,nullable=False)
@@ -56,23 +56,28 @@ class QuestionForm(FlaskForm):
 
 @app.route('/')
 def home():
-	return render_template('pages/home.html')
+    clear_all_selections()
+    return render_template('pages/home.html')
 
 @app.route('/about')
 def about():
-	return render_template('pages/about.html')
+    clear_all_selections()
+    return render_template('pages/about.html')
 
 @app.route('/explore')
 def explore():
-	return redirect(url_for('buy'))
+    clear_all_selections()
+    return redirect(url_for('buy'))
 
 @app.route('/contact')
 def contact():
-	return render_template('index.html', content=render_template('pages/contact.html'))
+    clear_all_selections()
+    return render_template('index.html', content=render_template('pages/contact.html'))
 
 @app.route('/inspire')
 def inspire():
-	return render_template('pages/inspire.html')
+    clear_all_selections()
+    return render_template('pages/inspire.html')
 
 @app.route('/output')
 def output():
@@ -89,7 +94,6 @@ def tv():
     a=questions_table.query.get(cfg.qno)
     min=a.option_1_range
     max=a.option_2_range
-
     if request.method == 'POST':
  #known issue- no validation if no rb is selected
         # Render the same screen when no radio button is selected
@@ -283,6 +287,17 @@ def recommendation_algorithm(dataframe, personality_answers_array, tech_answers_
     recommended_products = dataframe.iloc[closest_for_fx][PRIMARY_COL_NAME_PHONE]
 
     return recommended_products.to_list()
+
+def clear_all_selections():
+    
+    cfg.qno=1
+    
+    del cfg.answers[:]
+    cfg.trait_collection_finished=False
+    
+    del cfg.traits[:]
+
+
 
 if __name__=="__main__":
 	app.run(debug=True, use_reloader=True)

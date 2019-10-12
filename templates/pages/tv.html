@@ -12,7 +12,7 @@
          {% if flag=='s' %}
          <p>
             {{ form.slider.label }}:
-              {{ form.slider(min=min_, max=max_ , oninput="outputUpdate(value)") }}
+            {{ form.slider(min=min_, max=max_ , oninput="outputUpdate(value)") }}
 
             <output for="age" id="sliderVal">{{ form.slider.data }}</output>
          </p>

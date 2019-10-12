@@ -96,7 +96,7 @@ def output():
     p1_url = '#'
     p2_url = '#'
     p3_url = '#'
-    search = p1.split(" ")[:2]+[" amazon"]
+    search = p1.split(" ")[:2]+["amazon"]+["tv"]
     params = {"q":search}
     r = requests.get("https://www.bing.com/images/search?q={}".format(search))
     soup = BeautifulSoup(r.text,"html.parser")

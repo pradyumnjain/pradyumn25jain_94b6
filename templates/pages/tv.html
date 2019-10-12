@@ -45,7 +45,9 @@
 {% endblock %}
 
 {% block scripts %}
+<script type="text/javascript">
 function outputUpdate(slid) {
-	document.querySelector('#sliderVal').value = Math.round(slid, 1);
+  document.querySelector('#sliderVal').value = Math.round(slid, 1);
 }
+</script>
 {% endblock %}

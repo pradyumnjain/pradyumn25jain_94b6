@@ -117,7 +117,7 @@ def tv():
 
             cfg.qno=cfg.qno+1
             #question refresh, code to be optimized
-            question= questions_table.query.get(cfg.qno).question
+            question = questions_table.query.get(cfg.qno).question
 
 
             #render the mcq choices here

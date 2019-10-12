@@ -6,10 +6,11 @@
   
 {% endblock %}
 {% block body %}
-  <div class="container" style="max-height: auto ">
+  <div class="container-fluid" style="max-height: auto;background:transparent url('../../static/images/Qbackground.jpg') no-repeat center center /cover">
+    <div class="container">
     <div class="flexbox">
-    <div class="row hidden-md-up" style="max-height: auto; margin-top:30px ">
-      <div class="col-lg-4 d-flex align-items-stretch">
+    <div class="row hidden-md-up" style="max-height: auto; padding:30px ">
+      <div class="col-lg-4 d-flex align-items-stretch" style="padding: 10px">
 
         <div class="card">
           <a href="https://www.amazon.in/Sony-Wi-Xb400-Wireless-Headphones-WIXB400/dp/B07WNXS613?th=1" class="card-link">
@@ -24,10 +25,10 @@
         </a>
         </div>
       </div>
-      <div class="col-lg-4 d-flex align-items-stretch">
+      <div class="col-lg-4 d-flex align-items-stretch" style="padding: 10px">
         <div class="card">
           <a href="https://www.amazon.in/255-Bluetooth-Wireless-Earphone-Immersive/dp/B07C2VJXP4/ref=lp_15783296031_1_1?s=electronics&ie=UTF8&qid=1570815868&sr=1-1" class="card-link">
-          <div class="card-block">
+          <div class="card-block">  
             <img src="{{ url_for('static', filename='images/boatSports.jpg') }}" class="card-img-top hoverable" alt="" >
             <h4 class="card-title">boAt Rockerz 255 Sports</h4>
             <h6 class="card-subtitle text-muted">In-ear bluetooth</h6>
@@ -38,7 +39,7 @@
         </a>
         </div>
       </div>
-      <div class="col-lg-4 d-flex align-items-stretch">
+      <div class="col-lg-4 d-flex align-items-stretch" style="padding: 10px">
         <div class="card">
           <a href="https://www.amazon.in/Sony-WI-C400-Wireless-Stereo-Headphone/dp/B074WFT3KL/ref=lp_15783296031_1_22?s=electronics&ie=UTF8&qid=1570815868&sr=1-22" class="card-link">
           <div class="card-block">
@@ -54,9 +55,9 @@
       </div>
     </div><br>
   </div>
-  <div class="flexbox" style="margin-bottom:30px">
-    <div class="row" style="max-height: auto; margin-bottom: :30px">
-      <div class="col-lg-4 d-flex align-items-stretch">
+  <div class="flexbox" style="padding-bottom:30px">
+    <div class="row" style="max-height: auto; padding:30px">
+      <div class="col-lg-4 d-flex align-items-stretch" style="padding: 10px">
         <div class="card">
            <a href="https://www.amazon.in/JBL-E25BT-Signature-Wireless-Headphones/dp/B01MDMSQQ7/ref=sr_1_12?qid=1570816723&s=electronics&sr=1-12" class="card-link">
           <div class="card-block">
@@ -70,7 +71,7 @@
         </a>
         </div>
       </div>
-      <div class="col-lg-4 d-flex align-items-stretch">
+      <div class="col-lg-4 d-flex align-items-stretch" style="padding: 10px">
         <div class="card">
           <a href="https://www.amazon.in/JBL-T160BT-Wireless-Headphones-Black/dp/B07DDJYMTG/ref=sr_1_15?qid=1570817210&s=electronics&sr=1-15" class="card-link">
           <div class="card-block">
@@ -84,7 +85,7 @@
         </a>
         </div>
       </div>
-      <div class="col-lg-4 d-flex align-items-stretch">
+      <div class="col-lg-4 d-flex align-items-stretch" style="padding: 10px">
         <div class="card">
           <a href="https://www.amazon.in/Rockerz-510-Wireless-Bluetooth-Headphones/dp/B06Y5LK5QJ/ref=sr_1_10?qid=1570817210&s=electronics&sr=1-10" class="card-link">
           <div class="card-block">
@@ -100,6 +101,7 @@
       </div>
     </div>
   </div>
+</div>
 </div>
 
 {% endblock %}

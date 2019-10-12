@@ -55,7 +55,7 @@ class QuestionForm(FlaskForm):
     slider = DecimalRangeField('Slide the slider!', default=0)
     Options = RadioField('Options', choices = [(float(a.option_1_value) ,a.option_1_range),(float(a.option_2_value) ,a.option_2_range),(float(a.option_3_value) , a.option_3)])
     # Options = RadioField('Options', choices = [('1' ,all_options[qno][0]),('2' ,all_options[qno][1]),('3' ,all_options[qno][2])] )
-    submit = SubmitField("Send")
+    submit = SubmitField("Next")
 
 
 

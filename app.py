@@ -152,69 +152,6 @@ ALL THE DATA WORK IS BELOW THIS.
 FEEL FREE TO ADJUST ACCORDING TO THE WEBSITE REQUIREMENTS
 TODO: BETTER VARIABLE NAMES, OPTIMIZATION, INCLUDE ALL DATASETS, REFACTOR CHUNKS OF CODE
 """
-
-NUMBER_OF_PERSONALITY_QUESTIONS = 5
-#Let me test for tv dataset first
-df = pd.read_csv("data/final_phone.csv", skipinitialspace=True)
-
-df_real_time = crawler.run()
-
-#Data preprocessing
-df.drop("Unnamed: 0", axis=1, inplace=True)
-df.drop("weight_oz", axis=1, inplace=True)
-df.drop('GPS', axis=1, inplace=True)
-df.drop('memory_card', axis=1, inplace=True)
-df.drop('battery_removable', axis=1, inplace=True)
-df.drop('length_mm', axis=1, inplace=True)
-df.drop('width_mm', axis=1, inplace=True)
-df.drop('gprs', axis=1, inplace=True)
-df.drop('edge', axis=1, inplace=True)
-df.dropna(inplace=True)
-
-PRIMARY_COL_NAME = "model"
-X = df[[x for x in df.columns if x!=PRIMARY_COL_NAME]]
-
-#Convert all the dtypes into float
-X = X.astype('float64')
-
-#normalize the dataset
-X = (X - X.max())/(X.max() - X.min())
-
-#Create the kmeans model
-kmeans_model = KMeans(n_clusters=NUMBER_OF_PERSONALITY_QUESTIONS)
-
-#Train
-kmeans_model.fit(X)
-
-#Predict on the same data i.e basically make clusters for the dataset
-y_kmeans = kmeans_model.predict(X)
-
-#Make centroids
-centroid_positions = kmeans_model.cluster_centers_
-new_X_centroids = np.zeros((NUMBER_OF_PERSONALITY_QUESTIONS,NUMBER_OF_PERSONALITY_QUESTIONS))
-#Setting values randomly for now but has to be evaluated by seeing the products
-new_X_centroids[0,0] = 1
-new_X_centroids[1,1] = 1
-new_X_centroids[2,2] = 1
-new_X_centroids[3,3] = 1
-new_X_centroids[4,4] = 1
-
-#Calculating P value for centroids
-P_centroids = np.zeros((NUMBER_OF_PERSONALITY_QUESTIONS,NUMBER_OF_PERSONALITY_QUESTIONS))
-for i in range(len(centroid_positions)):
-    disti = []
-    for j in range(len(centroid_positions)):
-        disti.append(sum(np.sqrt((centroid_positions[i] - centroid_positions[j])**2)))
-    disti /= (max(disti)+np.average(disti))
-    disti = 1 - disti
-    P_centroids[i] = np.array(disti)
-
-#Calculate distance for all the data points to calculate P value
-P_dist = np.zeros(len(y_kmeans))
-for ind, val in enumerate(y_kmeans):
-    d = sum(np.sqrt((centroid_positions[val] - X.iloc[ind].values)**2))
-    P_dist[ind] = d
-
 #I am sure there is a better way to do it
 def get_indices(arr, x):
     indices = []
@@ -222,19 +159,117 @@ def get_indices(arr, x):
         if arr[i]==x:
             indices.append(i)
     return indices
-P_X = np.zeros((len(y_kmeans), NUMBER_OF_PERSONALITY_QUESTIONS))
 
+NUMBER_OF_PERSONALITY_QUESTIONS = 5
+#Let me test for tv dataset first
+df_phone = pd.read_csv("data/final_phone.csv", skipinitialspace=True)
+df_tv = crawler.run()
+
+#Data preprocessing
+df_phone.drop("Unnamed: 0", axis=1, inplace=True)
+df_phone.drop("weight_oz", axis=1, inplace=True)
+df_phone.drop('GPS', axis=1, inplace=True)
+df_phone.drop('memory_card', axis=1, inplace=True)
+df_phone.drop('battery_removable', axis=1, inplace=True)
+df_phone.drop('length_mm', axis=1, inplace=True)
+df_phone.drop('width_mm', axis=1, inplace=True)
+df_phone.drop('gprs', axis=1, inplace=True)
+df_phone.drop('edge', axis=1, inplace=True)
+df_phone.dropna(inplace=True)
+
+df_tv.drop("usb_port", axis=1, inplace=True)
+df_tv.drop("hdmi_port", axis=1, inplace=True)
+df_tv.drop("type", axis=1, inplace=True)
+df_tv.dropna(inplace=True)
+
+PRIMARY_COL_NAME_PHONE = "model"
+PRIMARY_COL_NAME_TV = "product_name"
+X_phone = df_phone[[x for x in df_phone.columns if x!=PRIMARY_COL_NAME_PHONE]]
+X_tv = df_tv[[x for x in df_tv.columns if x!=PRIMARY_COL_NAME_TV]]
+
+#Convert all the dtypes into float
+X_phone = X_phone.astype('float64')
+X_tv = X_tv.astype('float64')
+
+#normalize the dataset
+X_phone = (X_phone - X_phone.max())/(X_phone.max() - X_phone.min())
+X_tv = (X_tv - X_tv.max())/(X_tv.max() - X_tv.min())
+
+#Create the kmeans model
+kmeans_model_phone = KMeans(n_clusters=NUMBER_OF_PERSONALITY_QUESTIONS)
+kmeans_model_tv = KMeans(n_clusters=NUMBER_OF_PERSONALITY_QUESTIONS)
+
+#Train
+kmeans_model_phone.fit(X_phone)
+kmeans_model_tv.fit(X_tv)
+
+#Predict on the same data i.e basically make clusters for the dataset
+y_kmeans_phone = kmeans_model_phone.predict(X_phone)
+y_kmeans_tv = kmeans_model_tv.predict(X_tv)
+#Make centroids
+centroid_positions_phone = kmeans_model_phone.cluster_centers_
+new_X_centroids_phone = np.zeros((NUMBER_OF_PERSONALITY_QUESTIONS,NUMBER_OF_PERSONALITY_QUESTIONS))
+#Setting values randomly for now but has to be evaluated by seeing the products
+new_X_centroids_phone[0,0] = 1
+new_X_centroids_phone[1,1] = 1
+new_X_centroids_phone[2,2] = 1
+new_X_centroids_phone[3,3] = 1
+new_X_centroids_phone[4,4] = 1
+
+centroid_positions_tv = kmeans_model_tv.cluster_centers_
+new_X_centroids_tv = np.zeros((NUMBER_OF_PERSONALITY_QUESTIONS,NUMBER_OF_PERSONALITY_QUESTIONS))
+new_X_centroids_tv[0,0] = 1
+new_X_centroids_tv[1,1] = 1
+new_X_centroids_tv[2,2] = 1
+new_X_centroids_tv[3,3] = 1
+new_X_centroids_tv[4,4] = 1
+
+#Calculating P value for centroids
+P_centroids_phone = np.zeros((NUMBER_OF_PERSONALITY_QUESTIONS,NUMBER_OF_PERSONALITY_QUESTIONS))
+for i in range(len(centroid_positions_phone)):
+    disti = []
+    for j in range(len(centroid_positions_phone)):
+        disti.append(sum(np.sqrt((centroid_positions_phone[i] - centroid_positions_phone[j])**2)))
+    disti /= (max(disti)+np.average(disti))
+    disti = 1 - disti
+    P_centroids_phone[i] = np.array(disti)
+P_centroids_tv = np.zeros((NUMBER_OF_PERSONALITY_QUESTIONS,NUMBER_OF_PERSONALITY_QUESTIONS))
+for i in range(len(centroid_positions_tv)):
+    disti = []
+    for j in range(len(centroid_positions_tv)):
+        disti.append(sum(np.sqrt((centroid_positions_tv[i] - centroid_positions_tv[j])**2)))
+    disti /= (max(disti)+np.average(disti))
+    disti = 1 - disti
+    P_centroids_tv[i] = np.array(disti)
+
+#Calculate distance for all the data points to calculate P value
+P_dist_phone = np.zeros(len(y_kmeans_phone))
+for ind, val in enumerate(y_kmeans_phone):
+    d = sum(np.sqrt((centroid_positions_phone[val] - X_phone.iloc[ind].values)**2))
+    P_dist_phone[ind] = d
+P_dist_tv = np.zeros(len(y_kmeans_phone))
+for ind, val in enumerate(y_kmeans_tv):
+    d = sum(np.sqrt((centroid_positions_tv[val] - X_tv.iloc[ind].values)**2))
+    P_dist_tv[ind] = d
+
+P_X_phone = np.zeros((len(y_kmeans_phone), NUMBER_OF_PERSONALITY_QUESTIONS))
+P_X_tv = np.zeros((len(y_kmeans_tv), NUMBER_OF_PERSONALITY_QUESTIONS))
 #Calculate P value for all the data points
 #i is the personality
 #j is the centroid's personality
 for i in range(NUMBER_OF_PERSONALITY_QUESTIONS):
     for j in range(NUMBER_OF_PERSONALITY_QUESTIONS):
-        P_X[get_indices(y_kmeans, i), j] = P_centroids[i,j] - (P_centroids[i,j]/max(P_dist[get_indices(y_kmeans, i)]))*P_dist[get_indices(y_kmeans, i)]
+        P_X_phone[get_indices(y_kmeans_phone, i), j] = P_centroids_phone[i,j] - (P_centroids_phone[i,j]/max(P_dist_phone[get_indices(y_kmeans_phone, i)]))*P_dist_phone[get_indices(y_kmeans_phone, i)]
+for i in range(NUMBER_OF_PERSONALITY_QUESTIONS):
+    for j in range(NUMBER_OF_PERSONALITY_QUESTIONS):
+        P_X_tv[get_indices(y_kmeans_tv, i), j] = P_centroids_tv[i,j] - (P_centroids_tv[i,j]/max(P_dist_tv[get_indices(y_kmeans_tv, i)]))*P_dist_tv[get_indices(y_kmeans_tv, i)]
 
 #Creating random forest regressor to perform supervised learning
 #This will basically generate mapping between the features and personality
-rfr_model = RandomForestRegressor(max_depth=30)
-rfr_model.fit(P_X, X)
+rfr_model_phone = RandomForestRegressor(max_depth=30)
+rfr_model_phone.fit(P_X_phone, X_phone)
+rfr_model_tv = RandomForestRegressor(max_depth=30)
+rfr_model_tv.fit(P_X_tv, X_tv)
 
 def recommendation_algorithm(dataframe, personality_answers_array, tech_answers_array):
     # Make sure to return a list/array object or anything else and changes on the @output route accordingly
@@ -242,14 +277,14 @@ def recommendation_algorithm(dataframe, personality_answers_array, tech_answers_
 
     #This is the rule for deciding on how to transition to feature question set
     #For now I am choosing closest 20 points
-    closest = np.argsort(np.sum((X.values - predictedX_features)**2, axis=1))[:20]
+    closest = np.argsort(np.sum((X_phone.values - predictedX_features)**2, axis=1))[:40]
 
     #After getting the predicted feature vector we can rank the things
     predicted_products = []
-    closest_for_fx = np.argsort(np.sum((X.values - tech_answers_array)**2, axis=1))[:3]
+    closest_for_fx = np.argsort(np.sum((X_phone.values - tech_answers_array)**2, axis=1))[:3]
 
     #The datatype is the series, FINAL OUTPUT
-    recommended_products = dataframe.iloc[closest_for_fx][PRIMARY_COL_NAME]
+    recommended_products = dataframe.iloc[closest_for_fx][PRIMARY_COL_NAME_PHONE]
 
     return recommended_products.to_list()
 

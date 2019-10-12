@@ -100,7 +100,7 @@ def tv():
         # if form.validate() == False:
         if(False):
             print("can't validate")
-            return render_template('index.html', content=render_template('pages/tv.html', form=form, question=question, flag=a.answer_type, min_=min, max_=max))
+            return render_template('pages/tv.html', form=form, question=question, flag=a.answer_type, min_=min, max_=max)
 
 
         #Render output page if all questions are answered
@@ -133,11 +133,11 @@ def tv():
                 min=a.option_1_value
                 max=a.option_2_value
             # form.Options.choices=[('1',all_options[qno][0]),('2' ,all_options[qno][1]),('3',all_options[qno][2])]
-            return render_template('index.html', content=render_template('pages/tv.html', form=form, question=question, flag=a.answer_type, min_=min, max_=max))
+            return render_template('pages/tv.html', form=form, question=question, flag=a.answer_type, min_=min, max_=max)
 
     elif request.method == 'GET':
         # this part runs for the first question
-        return render_template('index.html', content=render_template('pages/tv.html', form = form, question=question, flag=a.answer_type,min_=min, max_=max))
+        return render_template('pages/tv.html', form = form, question=question, flag=a.answer_type,min_=min, max_=max)
 
 
 @app.route('/buy')

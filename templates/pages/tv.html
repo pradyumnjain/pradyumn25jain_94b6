@@ -1,9 +1,18 @@
+{% extends "layout.html" %}
 
+{% block head %}
+  <link href="{{ url_for('static', filename='css/style1.css') }}" type="text/css" rel="stylesheet">
+
+{% endblock %}
+{% block body %}
+
+<div class="row">
   <div class="col" style="background:white">
     <h2 style = "text-align: center;">{{ question }}</h2>
   </div>
-
-
+</div>
+<div class = "row">
+  <div class= "col-sm-4 offset-md-5">
   <form action = "{{url_for('tv')}}" method = "POST">
      <fieldset>
 
@@ -30,3 +39,7 @@
 
      </fieldset>
   </form>
+</div>
+</div>
+
+{% endblock %}

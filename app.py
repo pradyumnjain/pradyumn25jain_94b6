@@ -85,7 +85,7 @@ def output():
     del cfg.answers[0:cfg.no_of_trait_questions]
     print(cfg.traits, cfg.answers)
     final_output_array= recommendation_algorithm(df_tv, cfg.traits, cfg.answers)
-    return render_template('output.html', p1= final_output_array[0], p2=final_output_array[1], p3=final_output_array[2])
+    return render_template('pages/output.html', p1= final_output_array[0], p2=final_output_array[1], p3=final_output_array[2])
 
 @app.route('/tv',  methods=['GET','POST'])
 def tv():

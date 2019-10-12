@@ -12,6 +12,7 @@ import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.preprocessing import MinMaxScaler
 #Importing libraries for the algorithm
 import numpy as np
 import pandas as pd
@@ -98,25 +99,34 @@ def output():
     p3_url = '#'
     search = p1.split(" ")[:2]+[" amazon"]
     params = {"q":search}
-    r = requests.get("https://www.bing.com/images/search?q={}".format(search))
-    soup = BeautifulSoup(r.text,"html.parser")
-    links=soup.findAll("a",{"class":"thumb"})
-    if links:
-        p1_url = links[0].attrs["href"]
-    search = p2.split(" ")[:2]+[" amazon"]
-    params = {"q":search}
-    r = requests.get("https://www.bing.com/images/search?q={}".format(search))
-    soup = BeautifulSoup(r.text,"html.parser")
-    links=soup.findAll("a",{"class":"thumb"})
-    if links:
-        p2_url = links[0].attrs["href"]
-    search = p3.split(" ")[:2]+[" amazon"]
-    params = {"q":search}
-    r = requests.get("https://www.bing.com/images/search?q={}".format(search))
-    soup = BeautifulSoup(r.text,"html.parser")
-    links=soup.findAll("a",{"class":"thumb"})
-    if links:
-        p3_url = links[0].attrs["href"]
+    try:
+        r = requests.get("https://www.bing.com/images/search?q={}".format(search))
+        soup = BeautifulSoup(r.text,"html.parser")
+        links=soup.findAll("a",{"class":"thumb"})
+        if links:
+            p1_url = links[0].attrs["href"]
+    except:
+        pass
+    try:
+        search = p2.split(" ")[:2]+[" amazon"]
+        params = {"q":search}
+        r = requests.get("https://www.bing.com/images/search?q={}".format(search))
+        soup = BeautifulSoup(r.text,"html.parser")
+        links=soup.findAll("a",{"class":"thumb"})
+        if links:
+            p2_url = links[0].attrs["href"]
+    except:
+        pass
+    try:
+        search = p3.split(" ")[:2]+[" amazon"]
+        params = {"q":search}
+        r = requests.get("https://www.bing.com/images/search?q={}".format(search))
+        soup = BeautifulSoup(r.text,"html.parser")
+        links=soup.findAll("a",{"class":"thumb"})
+        if links:
+            p3_url = links[0].attrs["href"]
+    except:
+        pass
     return render_template('pages/output.html', p1=p1, p2=p2, p3=p3, p1u=p1_url, p2u=p2_url, p3u=p3_url)
 
 @app.route('/tv',  methods=['GET','POST'])
@@ -211,18 +221,28 @@ df_tv.drop("review", axis=1, inplace=True)
 
 df_tv.dropna(inplace=True)
 
+df_tv = df_tv[df_tv['price'].astype('int32')<200000]
+df_tv = df_tv[df_tv['buyers'].astype('float32')<500]
+
 PRIMARY_COL_NAME_PHONE = "model"
 PRIMARY_COL_NAME_TV = "product_name"
 X_phone = df_phone[[x for x in df_phone.columns if x!=PRIMARY_COL_NAME_PHONE]]
+X_phone_columns = X_phone.columns
 X_tv = df_tv[[x for x in df_tv.columns if x!=PRIMARY_COL_NAME_TV]]
+X_tv_columns = X_tv.columns
 
 #Convert all the dtypes into float
 X_phone = X_phone.astype('float64')
 X_tv = X_tv.astype('float64')
+X_tv_unscaled = X_tv
 
 #normalize the dataset
-X_phone = (X_phone - X_phone.max())/(X_phone.max() - X_phone.min())
-X_tv = (X_tv - X_tv.max())/(X_tv.max() - X_tv.min())
+phone_mm_scaler = MinMaxScaler()
+X_phone = phone_mm_scaler.fit_transform(X_phone)
+X_phone = pd.DataFrame(X_phone, columns=X_phone_columns)
+tv_mm_scaler = MinMaxScaler()
+X_tv = tv_mm_scaler.fit_transform(X_tv)
+X_tv = pd.DataFrame(X_tv, columns=X_tv_columns)
 
 #Create the kmeans model
 kmeans_model_phone = KMeans(n_clusters=NUMBER_OF_PERSONALITY_QUESTIONS)
@@ -301,25 +321,34 @@ rfr_model_tv = RandomForestRegressor(max_depth=30)
 rfr_model_tv.fit(P_X_tv, X_tv)
 
 def normalize(x,data,col):
-    return (x-data[col].max())/(data[col].max() - data[col].min())
+    return (x-data[col].min())/(data[col].max() - data[col].min())
 
 def recommendation_algorithm(dataframe, personality_answers_array, tech_answers_array):
     if len(tech_answers_array)>2:
         tech_answers_array[2]*=100
 
     F_X = []
-    F_X.append(normalize(tech_answers_array[0],X_tv,'audio_output'))
-    F_X.append(normalize(tech_answers_array[1],X_tv,'price'))
-    F_X.append(normalize(tech_answers_array[2],X_tv,'res2'))
-    F_X.append(normalize(tech_answers_array[3],X_tv,'buyers'))
+    F_X.append(normalize(tech_answers_array[0], X_tv_unscaled, 'audio_output'))
+    F_X.append(normalize(tech_answers_array[1], X_tv_unscaled, 'price'))
+    F_X.append(normalize(tech_answers_array[2], X_tv_unscaled, 'res2'))
+    F_X.append(normalize(tech_answers_array[3], X_tv_unscaled, 'buyers'))
+
+    # F_X = tv_mm_scaler.transform([tech_answers_array])
+    print(F_X)
     # Make sure to return a list/array object or anything else and changes on the @output route accordingly
     predictedX_features = rfr_model_tv.predict([personality_answers_array])
 
-    narrowed_products = X_tv[X_tv['price']<(tech_answers_array[1]+(tech_answers_array[1]*0.08))]
+    narrowed_products = X_tv[X_tv['price']<F_X[1]+F_X[1]*0.08]
+    print(narrowed_products)
+    print(X_tv['price'])
+    print(F_X[1]+F_X[1]*0.08)
 
     #This is the rule for deciding on how to transition to feature question set
     #For now I am choosing closest 20 points
-    closest = np.argsort(np.sum((narrowed_products - predictedX_features)**2, axis=1))[:20]
+    if len(narrowed_products) >3:
+        closest = np.argsort(np.sum((narrowed_products - predictedX_features)**2, axis=1))[:40]
+    else:
+        closest = np.argsort(np.sum((X_tv.values - predictedX_features)**2, axis=1))[:40]
 
     #After getting the predicted feature vector we can rank the things
     predicted_products = []

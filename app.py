@@ -97,26 +97,29 @@ def output():
     p2_url = '#'
     p3_url = '#'
     search = p1.split(" ")[:2]+["amazon"]+["tv"]
+    search = " ".join(search)
     params = {"q":search}
     r = requests.get("https://www.bing.com/images/search?q={}".format(search))
     soup = BeautifulSoup(r.text,"html.parser")
     links=soup.findAll("a",{"class":"thumb"})
     if links:
-        p1_url = links[0].attrs["href"]
-    search = p2.split(" ")[:2]+[" amazon"]
+        p1_url = links[1].attrs["href"]
+    search = p2.split(" ")[:2]+["amazon"]+["tv"]
+    search = " ".join(search)
     params = {"q":search}
     r = requests.get("https://www.bing.com/images/search?q={}".format(search))
     soup = BeautifulSoup(r.text,"html.parser")
     links=soup.findAll("a",{"class":"thumb"})
     if links:
-        p2_url = links[0].attrs["href"]
-    search = p3.split(" ")[:2]+[" amazon"]
+        p2_url = links[1].attrs["href"]
+    search = p3.split(" ")[:2]+["amazon"]+["tv"]
+    search = " ".join(search)
     params = {"q":search}
     r = requests.get("https://www.bing.com/images/search?q={}".format(search))
     soup = BeautifulSoup(r.text,"html.parser")
     links=soup.findAll("a",{"class":"thumb"})
     if links:
-        p3_url = links[0].attrs["href"]
+        p3_url = links[1].attrs["href"]
     return render_template('pages/output.html', p1=p1, p2=p2, p3=p3, p1u=p1_url, p2u=p2_url, p3u=p3_url)
 
 @app.route('/tv',  methods=['GET','POST'])

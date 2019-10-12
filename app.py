@@ -96,21 +96,21 @@ def output():
     p1_url = '#'
     p2_url = '#'
     p3_url = '#'
-    search = input(p1.split(" ")[:2]+[" amazon"])
+    search = p1.split(" ")[:2]+[" amazon"]
     params = {"q":search}
     r = requests.get("https://www.bing.com/images/search?q={}".format(search))
     soup = BeautifulSoup(r.text,"html.parser")
     links=soup.findAll("a",{"class":"thumb"})
     if links:
         p1_url = links[0].attrs["href"]
-    search = input(p2.split(" ")[:2]+[" amazon"])
+    search = p2.split(" ")[:2]+[" amazon"]
     params = {"q":search}
     r = requests.get("https://www.bing.com/images/search?q={}".format(search))
     soup = BeautifulSoup(r.text,"html.parser")
     links=soup.findAll("a",{"class":"thumb"})
     if links:
         p2_url = links[0].attrs["href"]
-    search = input(p3.split(" ")[:2]+[" amazon"])
+    search = p3.split(" ")[:2]+[" amazon"]
     params = {"q":search}
     r = requests.get("https://www.bing.com/images/search?q={}".format(search))
     soup = BeautifulSoup(r.text,"html.parser")
@@ -300,18 +300,30 @@ rfr_model_phone.fit(P_X_phone, X_phone)
 rfr_model_tv = RandomForestRegressor(max_depth=30)
 rfr_model_tv.fit(P_X_tv, X_tv)
 
+def normalize(x,data,col):
+    return (x-data[col].max())/(data[col].max() - data[col].min())
+
 def recommendation_algorithm(dataframe, personality_answers_array, tech_answers_array):
-    tech_answers_array[2]*=100
+    if len(tech_answers_array)>2:
+        tech_answers_array[2]*=100
+
+    F_X = []
+    F_X.append(normalize(tech_answers_array[0],X_tv,'audio_output'))
+    F_X.append(normalize(tech_answers_array[1],X_tv,'price'))
+    F_X.append(normalize(tech_answers_array[2],X_tv,'res2'))
+    F_X.append(normalize(tech_answers_array[3],X_tv,'buyers'))
     # Make sure to return a list/array object or anything else and changes on the @output route accordingly
     predictedX_features = rfr_model_tv.predict([personality_answers_array])
 
+    narrowed_products = X_tv[X_tv['price']<(tech_answers_array[1]+(tech_answers_array[1]*0.08))]
+
     #This is the rule for deciding on how to transition to feature question set
     #For now I am choosing closest 20 points
-    closest = np.argsort(np.sum((X_tv.values - predictedX_features)**2, axis=1))[:40]
+    closest = np.argsort(np.sum((narrowed_products - predictedX_features)**2, axis=1))[:20]
 
     #After getting the predicted feature vector we can rank the things
     predicted_products = []
-    closest_for_fx = np.argsort(np.sum((X_tv.values - tech_answers_array)**2, axis=1))[:3]
+    closest_for_fx = np.argsort(np.sum((narrowed_products - F_X)**2, axis=1))[:3]
 
     #The datatype is the series, FINAL OUTPUT
     recommended_products = dataframe.iloc[closest_for_fx][PRIMARY_COL_NAME_TV]

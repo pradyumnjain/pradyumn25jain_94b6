@@ -270,15 +270,15 @@ rfr_model_tv.fit(P_X_tv, X_tv)
 
 def recommendation_algorithm(dataframe, personality_answers_array, tech_answers_array):
     # Make sure to return a list/array object or anything else and changes on the @output route accordingly
-    predictedX_features = rfr_model.predict([personality_answers_array])
+    predictedX_features = rfr_model_tv.predict([personality_answers_array])
 
     #This is the rule for deciding on how to transition to feature question set
     #For now I am choosing closest 20 points
-    closest = np.argsort(np.sum((X_phone.values - predictedX_features)**2, axis=1))[:40]
+    closest = np.argsort(np.sum((X_tv.values - predictedX_features)**2, axis=1))[:40]
 
     #After getting the predicted feature vector we can rank the things
     predicted_products = []
-    closest_for_fx = np.argsort(np.sum((X_phone.values - tech_answers_array)**2, axis=1))[:3]
+    closest_for_fx = np.argsort(np.sum((X_tv.values - tech_answers_array)**2, axis=1))[:3]
 
     #The datatype is the series, FINAL OUTPUT
     recommended_products = dataframe.iloc[closest_for_fx][PRIMARY_COL_NAME_PHONE]
@@ -286,12 +286,12 @@ def recommendation_algorithm(dataframe, personality_answers_array, tech_answers_
     return recommended_products.to_list()
 
 def clear_all_selections():
-    
+
     cfg.qno=1
-    
+
     del cfg.answers[:]
     cfg.trait_collection_finished=False
-    
+
     del cfg.traits[:]
 
 

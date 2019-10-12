@@ -24,7 +24,7 @@
             {{ form.slider.label }}:
             {{ form.slider(min=min_, max=max_ , oninput="outputUpdate(value)") }}
 
-            <output for="age" id="sliderVal">{{ form.slider.data }}</output>
+            <output for="slider" id="sliderVal">{{ form.slider.data }}</output>
          </p>
          {% endif %}
          {% if flag=='m' %}
@@ -42,4 +42,10 @@
 </div>
 </div>
 
+{% endblock %}
+
+{% block scripts %}
+function outputUpdate(slid) {
+	document.querySelector('#sliderVal').value = Math.round(slid, 1);
+}
 {% endblock %}

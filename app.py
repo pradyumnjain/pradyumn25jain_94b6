@@ -18,6 +18,11 @@ import pandas as pd
 import config as cfg
 import multiple_page_web_crawler as crawler
 
+from bs4 import BeautifulSoup
+import requests
+import image
+from io import BytesIO
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.secret_key = 'development key'
@@ -85,7 +90,34 @@ def output():
     del cfg.answers[0:cfg.no_of_trait_questions]
     print(cfg.traits, cfg.answers)
     final_output_array= recommendation_algorithm(df_tv, cfg.traits, cfg.answers)
-    return render_template('pages/output.html', p1= final_output_array[0], p2=final_output_array[1], p3=final_output_array[2])
+    p1=final_output_array[0]
+    p2=final_output_array[1]
+    p3=final_output_array[2]
+    p1_url = '#'
+    p2_url = '#'
+    p3_url = '#'
+    search = input(p1.split(" ")[:2]+[" amazon"])
+    params = {"q":search}
+    r = requests.get("https://www.bing.com/images/search?q={}".format(search))
+    soup = BeautifulSoup(r.text,"html.parser")
+    links=soup.findAll("a",{"class":"thumb"})
+    if links:
+        p1_url = links[0].attrs["href"]
+    search = input(p2.split(" ")[:2]+[" amazon"])
+    params = {"q":search}
+    r = requests.get("https://www.bing.com/images/search?q={}".format(search))
+    soup = BeautifulSoup(r.text,"html.parser")
+    links=soup.findAll("a",{"class":"thumb"})
+    if links:
+        p2_url = links[0].attrs["href"]
+    search = input(p3.split(" ")[:2]+[" amazon"])
+    params = {"q":search}
+    r = requests.get("https://www.bing.com/images/search?q={}".format(search))
+    soup = BeautifulSoup(r.text,"html.parser")
+    links=soup.findAll("a",{"class":"thumb"})
+    if links:
+        p3_url = links[0].attrs["href"]
+    return render_template('pages/output.html', p1=p1, p2=p2, p3=p3, p1u=p1_url, p2u=p2_url, p3u=p3_url)
 
 @app.route('/tv',  methods=['GET','POST'])
 def tv():
@@ -269,22 +301,22 @@ rfr_model_tv = RandomForestRegressor(max_depth=30)
 rfr_model_tv.fit(P_X_tv, X_tv)
 
 def recommendation_algorithm(dataframe, personality_answers_array, tech_answers_array):
-	tech_answers_array[2]*=100
-	# Make sure to return a list/array object or anything else and changes on the @output route accordingly
-	predictedX_features = rfr_model_tv.predict([personality_answers_array])
+    tech_answers_array[2]*=100
+    # Make sure to return a list/array object or anything else and changes on the @output route accordingly
+    predictedX_features = rfr_model_tv.predict([personality_answers_array])
 
-	#This is the rule for deciding on how to transition to feature question set
-	#For now I am choosing closest 20 points
-	closest = np.argsort(np.sum((X_tv.values - predictedX_features)**2, axis=1))[:40]
+    #This is the rule for deciding on how to transition to feature question set
+    #For now I am choosing closest 20 points
+    closest = np.argsort(np.sum((X_tv.values - predictedX_features)**2, axis=1))[:40]
 
-	#After getting the predicted feature vector we can rank the things
-	predicted_products = []
-	closest_for_fx = np.argsort(np.sum((X_tv.values - tech_answers_array)**2, axis=1))[:3]
+    #After getting the predicted feature vector we can rank the things
+    predicted_products = []
+    closest_for_fx = np.argsort(np.sum((X_tv.values - tech_answers_array)**2, axis=1))[:3]
 
-	#The datatype is the series, FINAL OUTPUT
-	recommended_products = dataframe.iloc[closest_for_fx][PRIMARY_COL_NAME_TV]
+    #The datatype is the series, FINAL OUTPUT
+    recommended_products = dataframe.iloc[closest_for_fx][PRIMARY_COL_NAME_TV]
 
-	return recommended_products.to_list()
+    return recommended_products.to_list()
 
 def clear_all_selections():
 
@@ -298,4 +330,4 @@ def clear_all_selections():
 
 
 if __name__=="__main__":
-	app.run(debug=True, use_reloader=True)
+    app.run(debug=True, use_reloader=True)
